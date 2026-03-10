@@ -1,40 +1,10 @@
 <!DOCTYPE html>
 <html>
-<head>
-<meta charset="utf-8">
-
-<script>
-
-function getParam(name){
-  const url = new URL(window.location.href);
-  return url.searchParams.get(name);
-}
-
-window.onload = function(){
-
-  const action = getParam("action");
-  const task = getParam("task");
-  const text = getParam("text");
-
-  let lifeupURL = "lifeup://api?action=" + action;
-
-  if(task){
-    lifeupURL += "&task_name=" + task;
-  }
-
-  if(text){
-    lifeupURL += "&text=" + text;
-  }
-
-  window.location.href = lifeupURL;
-
-}
-
-</script>
-
-</head>
-
 <body>
-Opening LifeUp...
+
+<a href="lifeup://api/toast?text=测试成功&type=1&isLong=true">
+点击测试 LifeUp
+</a>
+
 </body>
 </html>
