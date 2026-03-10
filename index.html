@@ -1,46 +1,32 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LifeUp触发中转</title>
-    <script>
-        // 页面加载后自动执行
-        window.onload = function() {
-            // 获取URL中的参数（任务类型、任务名称）
-            const urlParams = new URLSearchParams(window.location.search);
-            const action = urlParams.get('action'); // 操作类型：complete（完成任务）、tomato（番茄钟）
-            const taskName = urlParams.get('task'); // 任务名称：早睡、拉伸等
+<meta charset="utf-8">
 
-            // 验证参数是否完整
-            if (!action || !taskName) {
-                document.body.innerText = "参数错误！请检查URL参数是否正确。";
-                return;
-            }
+<script>
 
-            // 构建LifeUp的URL Scheme
-            let lifeupUrl = '';
-            if (action === 'complete') {
-                // 完成任务的URL Scheme（LifeUp API格式）
-                lifeupUrl = `lifeup:///api/v1/task/complete?name=${encodeURIComponent(taskName)}`;
-            } else if (action === 'tomato') {
-                // 开始番茄钟的URL Scheme（LifeUp API格式）
-                lifeupUrl = `lifeup:///api/v1/tomato/start?name=${encodeURIComponent(taskName)}`;
-            } else {
-                document.body.innerText = "不支持的操作类型！仅支持complete/tomato。";
-                return;
-            }
+function getParam(name){
+  const url = new URL(window.location.href);
+  return url.searchParams.get(name);
+}
 
-            // 自动跳转触发LifeUp
-            window.location.href = lifeupUrl;
+window.onload = function(){
 
-            // 提示信息（备用）
-            document.body.innerText = `正在触发LifeUp：${taskName}（${action}）...`;
-        };
-    </script>
+  const action = getParam("action");
+  const id = getParam("id");
+
+  const lifeupURL =
+  "lifeup://api/" + action + "?task_id=" + id;
+
+  window.location.href = lifeupURL;
+
+}
+
+</script>
+
 </head>
+
 <body>
-    <h1>LifeUp功能触发中...</h1>
-    <p>如果没有自动跳转，请检查参数或LifeUp App是否安装。</p>
+Opening LifeUp...
 </body>
 </html>
