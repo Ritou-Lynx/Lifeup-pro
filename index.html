@@ -4,6 +4,7 @@
 <meta charset="utf-8">
 
 <script>
+
 window.onload = function(){
 
   const params = new URLSearchParams(window.location.search);
@@ -11,11 +12,12 @@ window.onload = function(){
   const action = params.get("action");
   const id = params.get("id");
 
-  const url = "lifeup://api/" + action + "?id=" + id;
+  const url = "lifeup://api?action=" + action + "&id=" + id;
 
   window.location.href = url;
 
 }
+
 </script>
 
 </head>
