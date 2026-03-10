@@ -1,33 +1,10 @@
 <!DOCTYPE html>
 <html>
-<head>
-<meta charset="utf-8">
-<title>LifeUp Redirect</title>
-
-<script>
-
-function getParam(name){
-  const url = new URL(window.location.href);
-  return url.searchParams.get(name);
-}
-
-window.onload = function(){
-
-  const action = getParam("action");
-  const task = getParam("task");
-
-  const lifeupURL =
-  "lifeup://api?action=" + action + "&task_name=" + task;
-
-  window.location.href = lifeupURL;
-
-}
-
-</script>
-
-</head>
-
 <body>
-Redirecting to LifeUp...
+
+<a href="lifeup://api/toast?text=测试&type=1">
+点击测试 LifeUp
+</a>
+
 </body>
 </html>
