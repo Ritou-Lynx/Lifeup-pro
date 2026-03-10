@@ -1,52 +1,46 @@
 <!DOCTYPE html>
-<html>
+<html lang="zh-CN">
 <head>
-    <meta charset="utf-8">
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LifeUp 执行中...</title>
-    <style>
-        body { font-family: sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; background: #f4f4f9; }
-        .card { background: white; padding: 2rem; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); text-align: center; }
-        button { margin-top: 1rem; padding: 10px 20px; border: none; background: #007bff; color: white; border-radius: 5px; cursor: pointer; }
-    </style>
+    <title>LifeUp触发中转</title>
+    <script>
+        // 页面加载后自动执行
+        window.onload = function() {
+            // 获取URL中的参数（任务类型、任务名称）
+            const urlParams = new URLSearchParams(window.location.search);
+            const action = urlParams.get('action'); // 操作类型：complete（完成任务）、tomato（番茄钟）
+            const taskName = urlParams.get('task'); // 任务名称：早睡、拉伸等
+
+            // 验证参数是否完整
+            if (!action || !taskName) {
+                document.body.innerText = "参数错误！请检查URL参数是否正确。";
+                return;
+            }
+
+            // 构建LifeUp的URL Scheme
+            let lifeupUrl = '';
+            if (action === 'complete') {
+                // 完成任务的URL Scheme（LifeUp API格式）
+                lifeupUrl = `lifeup:///api/v1/task/complete?name=${encodeURIComponent(taskName)}`;
+            } else if (action === 'tomato') {
+                // 开始番茄钟的URL Scheme（LifeUp API格式）
+                lifeupUrl = `lifeup:///api/v1/tomato/start?name=${encodeURIComponent(taskName)}`;
+            } else {
+                document.body.innerText = "不支持的操作类型！仅支持complete/tomato。";
+                return;
+            }
+
+            // 自动跳转触发LifeUp
+            window.location.href = lifeupUrl;
+
+            // 提示信息（备用）
+            document.body.innerText = `正在触发LifeUp：${taskName}（${action}）...`;
+        };
+    </script>
 </head>
 <body>
-    <div class="card">
-        <p id="msg">正在唤起人升...</p>
-        <button id="manualBtn" style="display:none;">手动触发</button>
-    </div>
-
-    <script>
-        const params = new URLSearchParams(window.location.search);
-        const type = params.get('type'); 
-        const name = params.get('name'); // 这里不需要提前编码，后面统一处理
-
-        if (type && name) {
-            // 构造 LifeUp 的路径
-            const path = (type === 'task') ? `api/tasks/complete` : `api/pomodoro/start`;
-            
-            // 核心修复：使用安卓 Intent 协议格式
-            // 格式：intent://[路径]?name=[参数]#Intent;scheme=lifeup;package=net.sarasarasa.lifeup;end
-            const intentUrl = `intent://${path}?name=${encodeURIComponent(name)}#Intent;scheme=lifeup;package=net.sarasarasa.lifeup;end`;
-
-            const trigger = () => {
-                window.location.href = intentUrl;
-            };
-
-            // 1. 尝试立即执行跳转
-            trigger();
-
-            // 2. 如果 1.5 秒后还没跳转成功（通常是浏览器拦截了自动跳转），显示手动按钮
-            setTimeout(() => {
-                document.getElementById('msg').innerText = "如果未自动跳转，请点击下方按钮";
-                const btn = document.getElementById('manualBtn');
-                btn.style.display = "inline-block";
-                btn.onclick = trigger;
-            }, 1500);
-
-        } else {
-            document.getElementById('msg').innerText = "错误：缺少 type 或 name 参数";
-        }
-    </script>
+    <h1>LifeUp功能触发中...</h1>
+    <p>如果没有自动跳转，请检查参数或LifeUp App是否安装。</p>
 </body>
 </html>
