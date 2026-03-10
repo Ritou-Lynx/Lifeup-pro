@@ -4,24 +4,18 @@
 <meta charset="utf-8">
 
 <script>
-
-function getParam(name){
-  const url = new URL(window.location.href);
-  return url.searchParams.get(name);
-}
-
 window.onload = function(){
 
-  const action = getParam("action");
-  const id = getParam("id");
+  const params = new URLSearchParams(window.location.search);
 
-  const lifeupURL =
-  "lifeup://api/" + action + "?id=" + id;
+  const action = params.get("action");
+  const id = params.get("id");
 
-  window.location.href = lifeupURL;
+  const url = "lifeup://api/" + action + "?id=" + id;
+
+  window.location.href = url;
 
 }
-
 </script>
 
 </head>
